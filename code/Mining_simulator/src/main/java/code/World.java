@@ -1,4 +1,4 @@
-package sae.mining_simulator;
+package code;
 import java.util.*;
 
 /**
@@ -11,11 +11,6 @@ public class World {
      */
     public World() {
     }
-
-    /**
-     * 
-     */
-    private Section world[][];
 
     /**
      * 
