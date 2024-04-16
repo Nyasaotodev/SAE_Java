@@ -1,3 +1,4 @@
+package sae.mining_simulator;
 
 import java.util.*;
 
