@@ -1,15 +1,15 @@
-package sae.mining_simulator;
-import java.util.*;
+package code;
 
 /**
  * 
  */
-public class out_of_bound_exception {
+public class out_of_bound_exception extends Exception {
 
     /**
      * Default constructor
      */
     public out_of_bound_exception() {
+        super("Out of bound");
     }
 
 }

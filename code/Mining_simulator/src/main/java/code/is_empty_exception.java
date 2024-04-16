@@ -1,15 +1,15 @@
-package sae.mining_simulator;
-import java.util.*;
+package code;
 
 /**
  * 
  */
-public class is_empty_exception {
+public class is_empty_exception extends Exception{
 
     /**
      * Default constructor
      */
     public is_empty_exception() {
+        super("Mine is empty");
     }
 
 }
