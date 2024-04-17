@@ -1,35 +1,28 @@
 package code;
 import java.util.*;
 
-/**
- * 
- */
 public class Mine extends Structure {
-
-    /**
-     * Default constructor
-     */
-    public Mine() {
-    }
-
-    /**
-     * 
-     */
     private int capacity;
-
-    /**
-     * @param nb
-     */
-    public void remove(int nb) {
-        // TODO implement here
+    public Mine(int id_struc, int x, int y, ore type) {
+        super(id_struc, x, y, type);
+        this.capacity = new Random().nextInt(50)+50;
+        this.storage = this.capacity;
     }
-
-    /**
-     * @return
-     */
+    public int remove(int nb) throws is_empty_exception {
+        if (this.storage == 0) {
+            throw new is_empty_exception();
+        } else if (this.storage < nb) {
+            int result = this.storage;
+            this.storage = 0;
+            return result;
+        } else {
+            this.storage -= nb;
+            return nb;
+        }
+    }
     public int get_capacity() {
-        // TODO implement here
-        return 0;
+        return this.capacity;
     }
+
 
 }
