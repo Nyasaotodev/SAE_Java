@@ -2,25 +2,15 @@ package code;
 import java.util.*;
 public class World {
 
-    /**
-     * Default constructor
-     */
+    private Section[][] sections = new Section[10][10];
+    private ArrayList<Robot> robots_gold = new ArrayList<Robot>();
+    private ArrayList<Robot> robots_nickel = new ArrayList<Robot>();
+
     public World() {
     }
 
-
-    public void generate() {
-        // TODO implement here
-    }
-
-    /**
-     * @param x 
-     * @param y 
-     * @return
-     */
     public Section get_section(int x, int y) {
-        // TODO implement here
-        return null;
+        return this.sections[x][y];
     }
 
     /**
