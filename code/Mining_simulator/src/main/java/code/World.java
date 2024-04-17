@@ -12,10 +12,6 @@ public class World {
     public Section get_section(int x, int y) {
         return this.sections[x][y];
     }
-
-    /**
-     * 
-     */
     public void display() {
         // TODO implement here
     }
