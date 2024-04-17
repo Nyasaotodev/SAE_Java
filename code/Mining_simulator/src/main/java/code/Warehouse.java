@@ -1,22 +1,11 @@
 package code;
 import java.util.*;
-
-/**
- * 
- */
 public class Warehouse extends Structure {
-
-    /**
-     * Default constructor
-     */
-    public Warehouse() {
+    public Warehouse(int id_struc, int x, int y, ore type) {
+        super(id_struc, x, y, type);
     }
-
-    /**
-     * @param nb
-     */
     public void add(int nb) {
-        // TODO implement here
+        this.storage += nb;
     }
 
 }
