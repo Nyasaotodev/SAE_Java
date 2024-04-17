@@ -1,54 +1,53 @@
 package code;
-import java.util.*;
-
-/**
- * 
- */
 public class Section {
-
-    /**
-     * Default constructor
-     */
-    public Section() {
-    }
-
-    /**
-     * 
-     */
     private int x;
-
-    /**
-     * 
-     */
     private int y;
-
-    /**
-     * 
-     */
     private boolean water;
-
-    /**
-     * 
-     */
     private Structure struct;
-
-    /**
-     * 
-     */
     private Robot robot;
 
-    /**
-     * 
-     */
-    public void set_robot() {
-        // TODO implement here
+    // constructor
+
+    public Section(int x, int y, boolean water) {
+        this.x = x;
+        this.y = y;
+        this.water = water;
+        this.struct = null;
+        this.robot = null;
     }
 
-    /**
-     * 
-     */
-    public void set_struct() {
-        // TODO implement here
+    // getters
+
+    public Structure get_struct() {
+        return this.struct;
     }
+
+    public Robot get_robot() {
+        return this.robot;
+    }
+
+    // setters
+
+    public void set_robot(Robot robot) throws Exception {
+        if (this.robot != null) {
+            throw new is_occupied_exception();
+        } else if  (this.water == true) {
+            throw new is_water_exception();
+        } else {
+            this.robot = robot;
+        }
+    }
+
+    public void set_struct(Structure struct) {
+        this.struct = struct;
+    }
+
+    // remove
+
+    public void remove_robot() {
+        this.robot = null;
+    }
+
+
 
 }
