@@ -29,12 +29,12 @@ abstract  public class Structure {
     }
     public int get_y() {
         return this.y;
-      
+    }
+
     public ore get_type() {
         return this.type;
     }
 
-
-    abstract public int remove(int efficiency) throws Exception;
+    public abstract int remove(int efficiency) throws Exception;
 
 }
