@@ -79,7 +79,7 @@ public class World {
                     continue;
                 }
                 id++;
-                this.sections[x_rob][y_rob].set_robot(new Robot(id, x_rob, y_rob, x, y, 0));
+                this.sections[x_rob][y_rob].set_robot(new Robot(id, x_rob, y_rob, x, y, 0, this));
                 this.robots_gold.add(this.sections[x_rob][y_rob].get_robot());
                 gold_robots--;
             }
@@ -100,7 +100,7 @@ public class World {
                     continue;
                 }
                 id++;
-                this.sections[x_rob][y_rob].set_robot(new Robot(id, x_rob, y_rob, x, y, 0));
+                this.sections[x_rob][y_rob].set_robot(new Robot(id, x_rob, y_rob, x, y, 0, this));
                 this.robots_nickel.add(this.sections[x_rob][y_rob].get_robot());
                 nickel_robots--;
             }
@@ -129,7 +129,7 @@ public class World {
         return this.sections[x][y];
     }
     public void display() {
-        // TODO implement here
+
     }
 
 }
