@@ -20,4 +20,11 @@ public class Structure {
         return this.storage;
     }
 
+    public int get_x() {
+        return this.x;
+    }
+    public int get_y() {
+        return this.y;
+    }
+
 }
