@@ -1,7 +1,7 @@
 package code;
 import java.util.*;
 
-public class Structure {
+abstract  public class Structure {
     protected int id_struc;
     protected int storage;
     protected int x;
@@ -29,9 +29,12 @@ public class Structure {
     }
     public int get_y() {
         return this.y;
-      
+    }
+
     public ore get_type() {
         return this.type;
     }
+
+    public abstract int remove(int efficiency) throws Exception;
 
 }
