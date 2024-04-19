@@ -162,6 +162,27 @@ public class World {
             }
             result += "\n"+sep;
         }
+
+        result += "\n\n";
+        for (Warehouse ware : this.warehouses) {
+            result += "Warehouse " + ware.get_id() + ": " + ware.get_storage() + "\n";
+        }
+        for (Mine mine : this.mines) {
+            result += "Mine " + mine.get_id() + ": " + mine.get_storage() + "/" + mine.get_capacity() + "\n";
+        }
+        for (Robot rob : this.robots_gold) {
+            result += "Robot " + rob.get_id() + ": " + rob.get_inventory() + "/" + rob.get_storage() + "\n";
+        }
+        for (Robot rob : this.robots_nickel) {
+            result += "Robot " + rob.get_id() + ": " + rob.get_inventory() + "/" + rob.get_storage() + "\n";
+        }
+        return result;
+    }
+
+    public ArrayList<Robot> get_robot() {
+        ArrayList<Robot> result = new ArrayList<Robot>();
+        result.addAll(this.robots_gold);
+        result.addAll(this.robots_nickel);
         return result;
     }
 }
