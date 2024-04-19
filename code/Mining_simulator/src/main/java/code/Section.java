@@ -8,10 +8,10 @@ public class Section {
 
     // constructor
 
-    public Section(int x, int y, boolean water) {
+    public Section(int x, int y) {
         this.x = x;
         this.y = y;
-        this.water = water;
+        this.water = false;
         this.struct = null;
         this.robot = null;
     }
