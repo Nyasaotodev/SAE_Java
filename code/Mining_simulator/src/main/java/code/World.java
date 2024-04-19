@@ -128,7 +128,7 @@ public class World {
     public Section get_section(int x, int y) {
         return this.sections[x][y];
     }
-    public void display() {
+    public String toString() {
         String result = "";
         String sep = "";
         for(int i = 0; i < 10 ; i++){sep += "+---";}
@@ -162,6 +162,6 @@ public class World {
             }
             result += "\n"+sep;
         }
+        return result;
     }
-
 }
