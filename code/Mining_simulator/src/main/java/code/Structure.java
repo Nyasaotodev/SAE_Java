@@ -19,7 +19,17 @@ public class Structure {
     public int get_storage() {
         return this.storage;
     }
+  
+    public int get_id() {
+        return this.id_struc;
+    }
 
+    public int get_x() {
+        return this.x;
+    }
+    public int get_y() {
+        return this.y;
+      
     public ore get_type() {
         return this.type;
     }
