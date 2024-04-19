@@ -47,6 +47,14 @@ public class Robot {
         return this.id_rob;
     }
 
+    public int get_inventory() {
+        return this.inventory;
+    }
+
+    public int get_storage() {
+        return this.storage;
+    }
+
     public void mine() throws Exception {
         if(inventory<storage) {
             if (this.world.get_section(x, y).get_struct() instanceof Mine) {
@@ -91,6 +99,20 @@ public class Robot {
                 this.y -= 1;
                 break;
         }
+        if(this.x == this.xw && this.y == this.yw) {
+            this.world.get_section(this.x, this.y).get_struct().add(this.inventory);
+            this.inventory = 0;
+        }
     }
 
+    @Override
+    public String toString() {
+        return "Robot{" +
+                "id_rob=" + id_rob +
+                ", storage=" + storage +
+                ", efficiency=" + efficiency +
+                ", inventory=" + inventory +
+                ", type=" + type +
+                '}';
+    }
 }
