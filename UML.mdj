@@ -570,7 +570,7 @@
 											"top": 209,
 											"width": 231,
 											"height": 13,
-											"text": "+display()",
+											"text": "+toString(): String",
 											"horizontalAlignment": 0
 										},
 										{
@@ -8544,7 +8544,18 @@
 									"_parent": {
 										"$ref": "AAAAAAGO5j/ounqIofg="
 									},
-									"name": "display"
+									"name": "toString",
+									"parameters": [
+										{
+											"_type": "UMLParameter",
+											"_id": "AAAAAAGO9aMyU9Wij9s=",
+											"_parent": {
+												"$ref": "AAAAAAGO5xLwH+f7DKU="
+											},
+											"type": "String",
+											"direction": "return"
+										}
+									]
 								},
 								{
 									"_type": "UMLOperation",
