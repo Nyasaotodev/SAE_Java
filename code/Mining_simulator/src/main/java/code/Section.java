@@ -33,7 +33,7 @@ public class Section {
     public void set_robot(Robot robot) throws Exception {
         if (this.robot != null) {
             throw new is_occupied_exception();
-        } else if  (this.water == true) {
+        } else if  (this.water) {
             throw new is_water_exception();
         } else {
             this.robot = robot;
