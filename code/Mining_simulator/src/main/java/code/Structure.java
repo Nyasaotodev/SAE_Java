@@ -20,4 +20,8 @@ public class Structure {
         return this.storage;
     }
 
+    public ore get_type() {
+        return this.type;
+    }
+
 }
