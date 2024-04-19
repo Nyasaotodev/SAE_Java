@@ -8,10 +8,10 @@ public class Section {
 
     // constructor
 
-    public Section(int x, int y, boolean water) {
+    public Section(int x, int y) {
         this.x = x;
         this.y = y;
-        this.water = water;
+        this.water = false;
         this.struct = null;
         this.robot = null;
     }
@@ -31,7 +31,7 @@ public class Section {
     public void set_robot(Robot robot) throws Exception {
         if (this.robot != null) {
             throw new is_occupied_exception();
-        } else if  (this.water == true) {
+        } else if  (this.water) {
             throw new is_water_exception();
         } else {
             this.robot = robot;
@@ -41,6 +41,8 @@ public class Section {
     public void set_struct(Structure struct) {
         this.struct = struct;
     }
+
+    public void set_water(boolean water) { this.water = water; }
 
     // remove
 
