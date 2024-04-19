@@ -125,7 +125,7 @@ public class World {
         return result;
     }
 
-    public Section get_section(int x, int y) {
+    public Section get_section(int x, int y) throws out_of_bound_exception {
         return this.sections[x][y];
     }
     public String toString() {
