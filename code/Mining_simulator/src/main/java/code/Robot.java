@@ -68,11 +68,29 @@ public class Robot {
         }
     }
 
-    /**
-     * @param dir
-     */
-    public void move(String dir) {
-        // TODO implement here
+    public void move(String dir) throws Exception {
+        switch (dir) {
+            case "N":
+                this.world.get_section(this.x-1,this.y).set_robot(this);
+                this.world.get_section(this.x,this.y).remove_robot();
+                this.x -= 1;
+                break;
+            case "S":
+                this.world.get_section(this.x+1,this.y).set_robot(this);
+                this.world.get_section(this.x,this.y).remove_robot();
+                this.x += 1;
+                break;
+            case "E":
+                this.world.get_section(this.x,this.y+1).set_robot(this);
+                this.world.get_section(this.x,this.y).remove_robot();
+                this.y += 1;
+                break;
+            case "O":
+                this.world.get_section(this.x,this.y-1).set_robot(this);
+                this.world.get_section(this.x,this.y).remove_robot();
+                this.y -= 1;
+                break;
+        }
     }
 
 }
