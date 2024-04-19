@@ -26,7 +26,7 @@ public class Robot {
         this.xw = 0;
         this.yw = 0;
         this.inventory = 0;
-        this.world = new World();
+        this.world = null;
         this.type = ore.gold;
     }
 
@@ -50,7 +50,7 @@ public class Robot {
     public void mine() throws Exception {
         if(inventory<storage) {
             if (this.world.get_section(x, y).get_struct() instanceof Mine) {
-                if (this.world.get_section(x, y).get_struct().get_type == this.type) {
+                if (this.world.get_section(x, y).get_struct().get_type() == this.type) {
                     if(this.efficiency>this.storage-this.inventory) {
                         this.inventory += this.world.get_section(this.x,this.y).get_struct().remove(this.efficiency);
                     }
