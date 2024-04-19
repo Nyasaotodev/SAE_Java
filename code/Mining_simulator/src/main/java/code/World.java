@@ -79,7 +79,7 @@ public class World {
                     continue;
                 }
                 id++;
-                this.sections[x_rob][y_rob].set_robot(new Robot(id, x_rob, y_rob, x, y, 0, this));
+                this.sections[x_rob][y_rob].set_robot(new Robot(id, x_rob, y_rob, x, y, 0, this, ore.gold));
                 this.robots_gold.add(this.sections[x_rob][y_rob].get_robot());
                 gold_robots--;
             }
@@ -100,7 +100,7 @@ public class World {
                     continue;
                 }
                 id++;
-                this.sections[x_rob][y_rob].set_robot(new Robot(id, x_rob, y_rob, x, y, 0, this));
+                this.sections[x_rob][y_rob].set_robot(new Robot(id, x_rob, y_rob, x, y, 0, this, ore.nickel));
                 this.robots_nickel.add(this.sections[x_rob][y_rob].get_robot());
                 nickel_robots--;
             }
@@ -129,7 +129,39 @@ public class World {
         return this.sections[x][y];
     }
     public void display() {
-
+        String result = "";
+        String sep = "";
+        for(int i = 0; i < 10 ; i++){sep += "+---";}
+        sep += "+\n";
+        result += sep;
+        for (int i = 0; i < 10; i++) {
+            for (int j = 0; j < 10; j++) {
+                result += "|";
+                if (this.sections[i][j].get_struct() != null) {
+                    if (this.sections[i][j].get_struct() instanceof Mine) {
+                        result += "M " + this.sections[i][j].get_struct().get_id() + "|";
+                    } else {
+                        result += "W " + this.sections[i][j].get_struct().get_id() + "|";
+                    }
+                } else if (this.sections[i][j].get_water()) {
+                    result += "W W|";
+                } else {
+                    result += "   |";
+                }
+            }
+            result += "\n";
+            for (int j = 0; j < 10; j++) {
+                result += "+";
+                if (this.sections[i][j].get_robot() != null) {
+                    result += "R " + this.sections[i][j].get_robot().get_id() + "|";
+                } else if (this.sections[i][j].get_water()) {
+                    result += "W W|";
+                } else {
+                    result += "   |";
+                }
+            }
+            result += "\n"+sep;
+        }
     }
 
 }

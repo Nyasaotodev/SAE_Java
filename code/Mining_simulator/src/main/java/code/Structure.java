@@ -20,6 +20,10 @@ public class Structure {
         return this.storage;
     }
 
+    public int get_id() {
+        return this.id_struc;
+    }
+
     public int get_x() {
         return this.x;
     }
