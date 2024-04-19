@@ -1,7 +1,7 @@
 package code;
 import java.util.*;
 
-abstract public class Mine extends Structure {
+public class Mine extends Structure {
     private int capacity;
     public Mine(int id_struc, int x, int y, ore type) {
         super(id_struc, x, y, type);
@@ -23,6 +23,7 @@ abstract public class Mine extends Structure {
     public int get_capacity() {
         return this.capacity;
     }
+    public void add(int nb){}
 
 
 }
