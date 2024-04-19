@@ -26,6 +26,8 @@ public class Section {
         return this.robot;
     }
 
+    public boolean get_water() { return this.water; }
+
     // setters
 
     public void set_robot(Robot robot) throws Exception {
