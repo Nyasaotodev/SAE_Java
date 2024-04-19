@@ -40,8 +40,8 @@ public class Robot {
         this.world = world;
     }
 
-    public void mine() {
-        // TODO
+    public void mine() throws Exception {
+        if(this.world)
     }
 
     /**
