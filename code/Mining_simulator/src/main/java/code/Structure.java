@@ -19,7 +19,7 @@ public class Structure {
     public int get_storage() {
         return this.storage;
     }
-
+  
     public int get_id() {
         return this.id_struc;
     }
@@ -29,6 +29,9 @@ public class Structure {
     }
     public int get_y() {
         return this.y;
+      
+    public ore get_type() {
+        return this.type;
     }
 
 }

@@ -52,6 +52,4 @@ public class Section {
         this.robot = null;
     }
 
-
-
 }
