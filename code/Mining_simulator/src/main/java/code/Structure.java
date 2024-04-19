@@ -36,5 +36,6 @@ abstract  public class Structure {
     }
 
     public abstract int remove(int efficiency) throws Exception;
+    public abstract void add(int nb);
 
 }

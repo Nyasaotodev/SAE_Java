@@ -1,6 +1,6 @@
 package code;
 import java.util.*;
-public class Warehouse extends Structure {
+abstract public class Warehouse extends Structure {
     public Warehouse(int id_struc, int x, int y, ore type) {
         super(id_struc, x, y, type);
     }
