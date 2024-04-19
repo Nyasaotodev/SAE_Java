@@ -14,6 +14,7 @@ public class Robot {
     private int xw;
     private int yw;
     private int inventory;
+    private World world;
 
     public Robot() {
         this.id_rob = 0;
@@ -24,9 +25,10 @@ public class Robot {
         this.xw = 0;
         this.yw = 0;
         this.inventory = 0;
+        this.world = new World();
     }
 
-    public Robot(int id_rob, int x, int y, int xw, int yw, int inventory) {
+    public Robot(int id_rob, int x, int y, int xw, int yw, int inventory, World world) {
         this.id_rob = id_rob;
         this.x = x;
         this.y = y;
@@ -35,38 +37,11 @@ public class Robot {
         this.storage = new Random().nextInt(5)+4;
         this.efficiency = new Random().nextInt(2)+1;
         this.inventory = inventory;
-    }
-
-    public int getId_rob() {
-        return id_rob;
-    }
-
-    public int getStorage() {
-        return storage;
-    }
-
-    public int getEfficiency() {
-        return efficiency;
-    }
-
-    public int getX() {
-        return x;
-    }
-
-    public int getY() {
-        return y;
-    }
-
-    public int getXw() {
-        return xw;
-    }
-
-    public int getYw() {
-        return yw;
+        this.world = world;
     }
 
     public void mine() {
-        // TODO implement here
+        // TODO
     }
 
     /**
