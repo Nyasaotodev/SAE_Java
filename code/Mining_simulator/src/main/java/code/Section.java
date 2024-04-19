@@ -42,6 +42,8 @@ public class Section {
         this.struct = struct;
     }
 
+    public void set_water(boolean water) { this.water = water; }
+
     // remove
 
     public void remove_robot() {
