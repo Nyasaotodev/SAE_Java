@@ -55,6 +55,13 @@ public class Robot {
         return this.storage;
     }
 
+    public int[] get_pose() {
+        int res[] = new int[2];
+        res[0] = this.x;
+        res[1] = this.y;
+        return res;
+    }
+
     public void mine() throws Exception {
         if(inventory<storage) {
             if (this.world.get_section(x, y).get_struct() instanceof Mine) {
