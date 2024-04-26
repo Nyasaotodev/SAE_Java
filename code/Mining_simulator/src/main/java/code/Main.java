@@ -6,8 +6,8 @@ public class Main {
     public static void main(String[] args) throws Exception {
         World world = new World();
         while (true) {
-            System.out.println(world);
             for (Robot robot : world.get_robot()) {
+                System.out.println(world);
                 System.out.println(robot);
                 Scanner scanner = new Scanner(System.in);
                 System.out.println("1. Move | 2. Mine | 3. Exit");
