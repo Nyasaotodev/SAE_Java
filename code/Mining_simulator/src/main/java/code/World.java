@@ -45,10 +45,10 @@ public class World {
             if (this.world[x][y].get_water() || this.world[x][y].get_struct() != null) {
                 continue;
             }
-            id++;
             this.world[x][y].set_struct(new Mine(0, x, y, ore.gold));
             this.mines.add((Mine)this.world[x][y].get_struct());
             gold_mine--;
+            id++;
         }
         while (nickel_mine > 0) {
             int x = new Random().nextInt(10);
@@ -56,10 +56,10 @@ public class World {
             if (this.world[x][y].get_water() || this.world[x][y].get_struct() != null) {
                 continue;
             }
-            id++;
             this.world[x][y].set_struct(new Mine(id, x, y, ore.nickel));
             this.mines.add((Mine)this.world[x][y].get_struct());
             nickel_mine--;
+            id++;
         }
         id = 0;
         while (ware_gold > 0) {
@@ -78,10 +78,10 @@ public class World {
                 if (this.world[x_rob][y_rob].get_water() || this.world[x_rob][y_rob].get_struct() != null) {
                     continue;
                 }
-                id++;
                 this.world[x_rob][y_rob].set_robot(new Robot(id, x_rob, y_rob, x, y, 0, this, ore.gold));
                 this.robots_gold.add(this.world[x_rob][y_rob].get_robot());
                 gold_robots--;
+                id++;
             }
         }
         while (ware_nickel > 0) {
@@ -99,10 +99,10 @@ public class World {
                 if (this.world[x_rob][y_rob].get_water() || this.world[x_rob][y_rob].get_struct() != null) {
                     continue;
                 }
-                id++;
                 this.world[x_rob][y_rob].set_robot(new Robot(id, x_rob, y_rob, x, y, 0, this, ore.nickel));
                 this.robots_nickel.add(this.world[x_rob][y_rob].get_robot());
                 nickel_robots--;
+                id++;
             }
         }
 
@@ -185,4 +185,13 @@ public class World {
         result.addAll(this.robots_nickel);
         return result;
     }
+
+    public ArrayList<Mine> get_mines() {
+        return this.mines;
+    }
+    public ArrayList<Warehouse> get_warehouses() {
+        return this.warehouses;
+    }
+
+
 }
