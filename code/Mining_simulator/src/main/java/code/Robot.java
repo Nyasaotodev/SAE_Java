@@ -62,6 +62,10 @@ public class Robot {
         return res;
     }
 
+    public void set_inventory(int inventory) {
+        this.inventory = inventory;
+    }
+
     public void mine() throws Exception {
         if(inventory<storage) {
             if (this.world.get_section(x, y).get_struct() instanceof Mine) {
