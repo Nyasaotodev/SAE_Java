@@ -42,7 +42,8 @@ public class World {
         while (gold_mine > 0) {
             int x = new Random().nextInt(10);
             int y = new Random().nextInt(10);
-            if (this.world[x][y].get_water() || this.world[x][y].get_struct() != null) {
+            if (this.world[x][y].get_water() || this.world[x][y].get_struct() != null || this.world[x][y].get_robot()!=null) {
+                System.out.println(true);
                 continue;
             }
             id++;
@@ -53,7 +54,8 @@ public class World {
         while (nickel_mine > 0) {
             int x = new Random().nextInt(10);
             int y = new Random().nextInt(10);
-            if (this.world[x][y].get_water() || this.world[x][y].get_struct() != null) {
+            if (this.world[x][y].get_water() || this.world[x][y].get_struct() != null || this.world[x][y].get_robot()!=null) {
+                System.out.println(true);
                 continue;
             }
             id++;
@@ -65,7 +67,8 @@ public class World {
         while (ware_gold > 0) {
             int x = new Random().nextInt(10);
             int y = new Random().nextInt(10);
-            if (this.world[x][y].get_water() || this.world[x][y].get_struct() != null) {
+            if (this.world[x][y].get_water() || this.world[x][y].get_struct() != null || this.world[x][y].get_robot()!=null) {
+                System.out.println(true);
                 continue;
             }
             this.world[x][y].set_struct(new Warehouse(0, x, y, ore.gold));
@@ -75,7 +78,8 @@ public class World {
             while (gold_robots > 0) {
                 int x_rob = new Random().nextInt(10);
                 int y_rob = new Random().nextInt(10);
-                if (this.world[x_rob][y_rob].get_water() || this.world[x_rob][y_rob].get_struct() != null) {
+                if (this.world[x_rob][y_rob].get_water() || this.world[x_rob][y_rob].get_robot()!=null) {
+                    System.out.println(true);
                     continue;
                 }
                 id++;
@@ -87,7 +91,8 @@ public class World {
         while (ware_nickel > 0) {
             int x = new Random().nextInt(10);
             int y = new Random().nextInt(10);
-            if (this.world[x][y].get_water() || this.world[x][y].get_struct() != null) {
+            if (this.world[x][y].get_water() || this.world[x][y].get_struct() != null || this.world[x][y].get_robot()!=null) {
+                System.out.println(true);
                 continue;
             }
             this.world[x][y].set_struct(new Warehouse(1, x, y, ore.nickel));
@@ -96,7 +101,8 @@ public class World {
             while (nickel_robots > 0) {
                 int x_rob = new Random().nextInt(10);
                 int y_rob = new Random().nextInt(10);
-                if (this.world[x_rob][y_rob].get_water() || this.world[x_rob][y_rob].get_struct() != null) {
+                if (this.world[x_rob][y_rob].get_water() || this.world[x_rob][y_rob].get_robot()!=null) {
+                    System.out.println(true);
                     continue;
                 }
                 id++;
