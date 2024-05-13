@@ -132,7 +132,11 @@ public class World {
     }
 
     public Section get_section(int x, int y) throws out_of_bound_exception {
-        return this.world[x][y];
+        if (x < 0 || x > 9 || y < 0 || y > 9) {
+            throw new out_of_bound_exception();
+        } else {
+            return this.world[x][y];
+        }
     }
     public String toString() {
         String result = "";

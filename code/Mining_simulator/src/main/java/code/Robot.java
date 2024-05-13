@@ -109,6 +109,8 @@ public class Robot {
                 this.world.get_section(this.x,this.y).remove_robot();
                 this.y -= 1;
                 break;
+            default:
+                throw new invalid_argument_exception();
         }
         if(this.x == this.xw && this.y == this.yw) {
             this.world.get_section(this.x, this.y).get_struct().add(this.inventory);
