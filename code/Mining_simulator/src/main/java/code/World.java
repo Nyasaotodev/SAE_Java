@@ -8,6 +8,25 @@ public class World {
     private ArrayList<Warehouse> warehouses = new ArrayList<Warehouse>();
     private ArrayList<Mine> mines = new ArrayList<Mine>();
 
+    public World(boolean test) throws Exception {
+        for (int i = 0; i < 10; i++) {
+            for (int j = 0; j < 10; j++) {
+                this.world[i][j] = new Section(i, j);
+            }
+        }
+        this.world[0][0].set_struct(new Mine(0, 0, 0, ore.gold));
+        this.mines.add((Mine)this.world[0][0].get_struct());
+        this.world[0][1].set_struct(new Mine(1, 0, 1, ore.nickel));
+        this.mines.add((Mine)this.world[0][1].get_struct());
+        this.world[0][2].set_struct(new Warehouse(0, 0, 2, ore.gold));
+        this.warehouses.add((Warehouse)this.world[0][2].get_struct());
+        this.world[0][3].set_water(true);
+        this.world[0][4].set_robot(new Robot(0, 2, 2, 0, 2, 0, this, ore.gold));
+        this.robots_gold.add(this.world[0][4].get_robot());
+        this.world[0][5].set_robot(new Robot(1, 0, 3, 0, 2, 0, this, ore.nickel));
+        this.robots_nickel.add(this.world[0][5].get_robot());
+    }
+
     public World() throws Exception {
         int water = new Random().nextInt(10)+10;
         int gold_mine = new Random().nextInt(1)+1;
