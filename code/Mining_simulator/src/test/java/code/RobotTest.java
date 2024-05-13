@@ -34,7 +34,23 @@ class RobotTest {
         r.move("N");
         r.move("O");
         r.move("O");
+
+        assertEquals(pose[1], r.get_pose()[1]);
+        //is water
+        w.get_section(pose[0]+1, pose[1]).set_water(true);
+        assertThrows(is_water_exception.class, () -> r.move("S"));
+        w.get_section(pose[0]+1, pose[1]).set_water(false);
+        //is occuped
+        w.get_section(pose[0]+1, pose[1]).set_robot(robots.get(1));
+        assertThrows(is_occupied_exception.class, () -> r.move("S"));
+        w.get_section(pose[0]+1, pose[1]).remove_robot();
+        //mine
+        System.out.println(w);
+        Mine m = w.get_mines().get(0);
+        w.get_section(m.get_x(), m.get_y()).set_robot(r);
+
         r.move("N");
+      
         r.mine();
         assertNotEquals(0, r.get_inventory());
 
