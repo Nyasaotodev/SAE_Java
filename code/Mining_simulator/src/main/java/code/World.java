@@ -30,7 +30,7 @@ public class World {
             ArrayList<int[]> arounds = around(x, y);
             for (int[] around : arounds) {
                 if (this.world[around[0]][around[1]].get_water()) {
-                    chance += 20;
+                    chance += 15;
                 }
             }
             if (new Random().nextInt(100) < chance) {
