@@ -70,8 +70,10 @@ public class Robot {
         if(inventory<storage) {
             if (this.world.get_section(x, y).get_struct() instanceof Mine) {
                 if (this.world.get_section(x, y).get_struct().get_type() == this.type) {
-                    if(this.efficiency>this.storage-this.inventory) {
-                        this.inventory += this.world.get_section(this.x,this.y).get_struct().remove(this.efficiency);
+                    if(this.efficiency<=(this.storage-this.inventory)) {
+                        this.inventory = this.inventory + this.world.get_section(this.x,this.y).get_struct().remove(this.efficiency);
+                    } else {
+                        this.inventory = this.inventory + this.world.get_section(this.x,this.y).get_struct().remove(this.storage-this.inventory);
                     }
                 }
                 else {
