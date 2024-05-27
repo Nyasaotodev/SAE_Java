@@ -55,6 +55,10 @@ public class Robot {
         return this.storage;
     }
 
+    public ore get_type() {
+        return this.type;
+    }
+
     public int[] get_pose() {
         int res[] = new int[2];
         res[0] = this.x;
