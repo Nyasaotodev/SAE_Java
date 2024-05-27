@@ -5,8 +5,7 @@ module sae.mining_simulator {
     requires org.controlsfx.controls;
     requires com.dlsc.formsfx;
 
-    opens sae.mining_simulator to javafx.fxml;
-    exports sae.mining_simulator;
+    exports vue;
     exports code;
     opens code to javafx.fxml;
 }
