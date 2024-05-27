@@ -20,7 +20,6 @@ import javafx.stage.Stage;
 
 public class Game_GUI extends Application {
     private World world = new World();
-    private Session session = new Session(world, this);
     private Robot current;
 
     public Game_GUI() throws Exception {
@@ -32,25 +31,27 @@ public class Game_GUI extends Application {
     public World get_world() {
         return this.world;
     }
-
+    private Session session;
     public Session get_session() {
         return this.session;
     }
-
+    private Map map;
 
     @Override
     public void start(Stage stage) throws out_of_bound_exception {
         stage.setTitle("Mining simulator");
         HBox root = new HBox();
         Scene scene = new Scene(new Group(),800, 509);
+        Session session = new Session(world, this, scene);
         stage.setScene(scene);
         ((Group) scene.getRoot()).getChildren().add(root);
-        Map map = new Map(world);
+        map = new Map(world);
         VBox side = new VBox();
+        VBox texts = new VBox();
             Text stats = new Text();
             stats.setText(stats());
             Text current = new Text();
-            current.setText("current robot:" + this.current);
+            current.setText("current robot:" + this.current.get_id());
             VBox controller = new VBox();
                 HBox firstRow = new HBox();
                     Rectangle square = new Rectangle(49,50);
@@ -67,7 +68,7 @@ public class Game_GUI extends Application {
                         public void handle(Event event) {
                             try {
                                 session.action("up");
-                            } catch (InterruptedException e) {
+                            } catch (InterruptedException | out_of_bound_exception e) {
                                 throw new RuntimeException(e);
                             }
                         }
@@ -86,7 +87,7 @@ public class Game_GUI extends Application {
                         public void handle(Event event) {
                             try {
                                 session.action("left");
-                            } catch (InterruptedException e) {
+                            } catch (InterruptedException | out_of_bound_exception e) {
                                 throw new RuntimeException(e);
                             }
                         }
@@ -106,7 +107,7 @@ public class Game_GUI extends Application {
                         public void handle(Event event) {
                             try {
                                 session.action("right");
-                            } catch (InterruptedException e) {
+                            } catch (InterruptedException | out_of_bound_exception e) {
                                 throw new RuntimeException(e);
                             }
                         }
@@ -119,7 +120,7 @@ public class Game_GUI extends Application {
                         public void handle(Event event) {
                             try {
                                 session.action("mine");
-                            } catch (InterruptedException e) {
+                            } catch (InterruptedException | out_of_bound_exception e) {
                                 throw new RuntimeException(e);
                             }
                         }
@@ -143,7 +144,7 @@ public class Game_GUI extends Application {
                         public void handle(Event event) {
                             try {
                                 session.action("down");
-                            } catch (InterruptedException e) {
+                            } catch (InterruptedException | out_of_bound_exception e) {
                                 throw new RuntimeException(e);
                             }
                         }
@@ -155,7 +156,8 @@ public class Game_GUI extends Application {
             controller.getChildren().addAll(firstRow, secondRow, thirdRow);
 
         Buildings(world, scene);
-        side.getChildren().addAll(stats, current, controller);
+        texts.getChildren().addAll(stats, current);
+        side.getChildren().addAll(texts, controller);
         root.getChildren().addAll(map, side);
         stage.show();
     }
@@ -196,7 +198,7 @@ public class Game_GUI extends Application {
                 if (s.get_robot() != null) {
                     Rectangle square = new Rectangle(25,25);
                     Text txt = new Text();
-                    txt.setText("R");
+                    txt.setText("R"+s.get_robot().get_id());
                     if (s.get_robot().get_type().equals(ore.gold))
                         square.setFill(Color.YELLOW);
                     else
@@ -230,4 +232,7 @@ public class Game_GUI extends Application {
         launch(args);
     }
 
+    public void set_map(Map map) {
+        this.map = map;
+    }
 }
