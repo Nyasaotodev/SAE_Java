@@ -22,6 +22,9 @@ class RobotTest {
     @Test
     void testMove() throws Exception {
         Robot r = w.get_robot().get(0);
+        ArrayList<Robot> robots = w.get_robot();
+        int[] pose = r.get_pose();
+
         r.move("N");
         assertEquals(1, r.get_pose()[0]);
         r.move("S");
