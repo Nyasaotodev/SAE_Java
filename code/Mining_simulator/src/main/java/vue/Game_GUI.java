@@ -170,28 +170,28 @@ public class Game_GUI extends Application {
                 if (struct instanceof Mine) {
                     Rectangle square = new Rectangle(25,25);
                     Text txt = new Text();
-                    txt.setText("M"+struct.get_id());
+                    txt.setText("M");
                     if (struct.get_type().equals(ore.gold))
                         square.setFill(Color.YELLOW);
                     else
                         square.setFill(Color.RED);
                     square.setX(25+51*j);
                     square.setY(i*51);
-                    txt.setX(30.5 + 51*j);
+                    txt.setX(32.5 + 51*j);
                     txt.setY(17.5 + i*51);
                     ((Group)scene.getRoot()).getChildren().addAll(square, txt);
                 }
                 if (struct instanceof Warehouse) {
                     Rectangle square = new Rectangle(25,25);
                     Text txt = new Text();
-                    txt.setText("W"+struct.get_id());
+                    txt.setText("W");
                     if (struct.get_type().equals(ore.gold))
                         square.setFill(Color.YELLOW);
                     else
                         square.setFill(Color.RED);
                     square.setX(51*j);
                     square.setY(i*51);
-                    txt.setX(3.5 + 51*j);
+                    txt.setX(5.5 + 51*j);
                     txt.setY(17.5 + i*51);
                     ((Group)scene.getRoot()).getChildren().addAll(square, txt);
                 }
@@ -205,7 +205,7 @@ public class Game_GUI extends Application {
                         square.setFill(Color.RED);
                     square.setX(25 + 51*j);
                     square.setY(25 + i*51);
-                    txt.setX(30.5 + 51*j);
+                    txt.setX(32.5 + 51*j);
                     txt.setY(42.5 + i*51);
 
                     ((Group)scene.getRoot()).getChildren().addAll(square, txt);
@@ -223,7 +223,7 @@ public class Game_GUI extends Application {
             result += "Mine " + mine.get_id() + ": " + mine.get_storage() + "/" + mine.get_capacity() + "\n";
         }
         for (Robot rob : world.get_robot()) {
-            result += "Robot " + rob.get_id() + ": " + rob.get_inventory() + "/" + rob.get_storage() +"\n";
+            result += "Robot " + rob.get_id() + ": " + rob.get_inventory() + "/" + rob.get_storage() + "\n";
         }
         return result;
     }
