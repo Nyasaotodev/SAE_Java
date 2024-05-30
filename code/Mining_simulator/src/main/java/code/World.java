@@ -29,8 +29,8 @@ public class World {
 
     public World() throws Exception {
         int water = new Random().nextInt(10)+10;
-        int gold_mine = new Random().nextInt(1)+1;
-        int nickel_mine = new Random().nextInt(1)+1;
+        int gold_mine = new Random().nextInt(2)+1;
+        int nickel_mine = new Random().nextInt(2)+1;
         int gold_robots = new Random().nextInt(4)+1;
         int nickel_robots = new Random().nextInt(4)+1;
         int ware_gold = 1;
@@ -49,7 +49,7 @@ public class World {
             ArrayList<int[]> arounds = around(x, y);
             for (int[] around : arounds) {
                 if (this.world[around[0]][around[1]].get_water()) {
-                    chance += 20;
+                    chance += 15;
                 }
             }
             if (new Random().nextInt(100) < chance) {
@@ -62,7 +62,6 @@ public class World {
             int x = new Random().nextInt(10);
             int y = new Random().nextInt(10);
             if (this.world[x][y].get_water() || this.world[x][y].get_struct() != null || this.world[x][y].get_robot()!=null) {
-                System.out.println(true);
                 continue;
             }
             this.world[x][y].set_struct(new Mine(0, x, y, ore.gold));
@@ -74,7 +73,6 @@ public class World {
             int x = new Random().nextInt(10);
             int y = new Random().nextInt(10);
             if (this.world[x][y].get_water() || this.world[x][y].get_struct() != null || this.world[x][y].get_robot()!=null) {
-                System.out.println(true);
                 continue;
             }
             this.world[x][y].set_struct(new Mine(id, x, y, ore.nickel));
@@ -87,7 +85,6 @@ public class World {
             int x = new Random().nextInt(10);
             int y = new Random().nextInt(10);
             if (this.world[x][y].get_water() || this.world[x][y].get_struct() != null || this.world[x][y].get_robot()!=null) {
-                System.out.println(true);
                 continue;
             }
             this.world[x][y].set_struct(new Warehouse(0, x, y, ore.gold));
@@ -98,7 +95,6 @@ public class World {
                 int x_rob = new Random().nextInt(10);
                 int y_rob = new Random().nextInt(10);
                 if (this.world[x_rob][y_rob].get_water() || this.world[x_rob][y_rob].get_robot()!=null) {
-                    System.out.println(true);
                     continue;
                 }
                 this.world[x_rob][y_rob].set_robot(new Robot(id, x_rob, y_rob, x, y, 0, this, ore.gold));
@@ -111,7 +107,6 @@ public class World {
             int x = new Random().nextInt(10);
             int y = new Random().nextInt(10);
             if (this.world[x][y].get_water() || this.world[x][y].get_struct() != null || this.world[x][y].get_robot()!=null) {
-                System.out.println(true);
                 continue;
             }
             this.world[x][y].set_struct(new Warehouse(1, x, y, ore.nickel));
@@ -121,7 +116,6 @@ public class World {
                 int x_rob = new Random().nextInt(10);
                 int y_rob = new Random().nextInt(10);
                 if (this.world[x_rob][y_rob].get_water() || this.world[x_rob][y_rob].get_robot()!=null) {
-                    System.out.println(true);
                     continue;
                 }
                 this.world[x_rob][y_rob].set_robot(new Robot(id, x_rob, y_rob, x, y, 0, this, ore.nickel));
@@ -151,7 +145,11 @@ public class World {
     }
 
     public Section get_section(int x, int y) throws out_of_bound_exception {
-        return this.world[x][y];
+        if (x < 0 || x > 9 || y < 0 || y > 9) {
+            throw new out_of_bound_exception();
+        } else {
+            return this.world[x][y];
+        }
     }
     public String toString() {
         String result = "";

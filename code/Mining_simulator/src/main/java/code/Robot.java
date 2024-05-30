@@ -55,6 +55,10 @@ public class Robot {
         return this.storage;
     }
 
+    public ore get_type() {
+        return this.type;
+    }
+
     public int[] get_pose() {
         int res[] = new int[2];
         res[0] = this.x;
@@ -111,6 +115,8 @@ public class Robot {
                 this.world.get_section(this.x,this.y).remove_robot();
                 this.y -= 1;
                 break;
+            default:
+                throw new invalid_argument_exception();
         }
         if(this.x == this.xw && this.y == this.yw) {
             this.world.get_section(this.x, this.y).get_struct().add(this.inventory);
