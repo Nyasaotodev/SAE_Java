@@ -13,7 +13,12 @@ public class AI {
         this.robot = robot;
     }
 
-    public void jouer() {}
+    public void jouer() {
+        if(map.getMines().isEmpty()) {
+            map.exploration(this.robot);
+        }
+
+    }
 
     public Network getNetwork() {
         return network;
