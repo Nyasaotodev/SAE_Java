@@ -1,5 +1,6 @@
 package robots_ia;
 
+
 import code.Robot;
 
 public class AI {
@@ -13,7 +14,17 @@ public class AI {
         this.robot = robot;
     }
 
-    public void jouer() {}
+    public void jouer() {
+        if(map.getMines().isEmpty()) {
+            map.exploration(this.robot);
+        }
+        else {
+            double temp = Double.POSITIVE_INFINITY;
+            for(int i = 0; i < this.map.getMines().size(); i++) {
+                if 
+            }
+        }
+    }
 
     public Network getNetwork() {
         return network;

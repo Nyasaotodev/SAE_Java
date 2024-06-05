@@ -22,7 +22,9 @@ public class Network {
 
     public int[] known_destination(Robot robot) {}
 
-    public String route(int[] dest, Robot robot) {}
+    public double route(int[] dest, Robot robot) { //renvoyer tuple (distance int, direction String)
+
+    }
 
     public Map getMap() {
         return map;
