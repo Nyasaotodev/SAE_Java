@@ -1,6 +1,7 @@
 package robots_ia;
 
 
+import code.Mine;
 import code.Robot;
 
 public class AI {
@@ -19,9 +20,11 @@ public class AI {
             map.exploration(this.robot);
         }
         else {
-            double temp = Double.POSITIVE_INFINITY;
-            for(int i = 0; i < this.map.getMines().size(); i++) {
-                if 
+            int temp = 0;
+            for(int i = 0; i < this.network.known_destination(this.robot).size; i++) {
+                if(this.network.known_destination(this.robot).get(i) instanceof Mine && this.network.known_destination(this.robot).get(i).get_type() == this.robot.get_type()) {
+                    temp = this.network.known_destination(this.robot).get(i);
+                }
             }
         }
     }
