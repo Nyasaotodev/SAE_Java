@@ -152,54 +152,54 @@ public class World {
         }
     }
     public String toString() {
-        String result = "";
+        StringBuilder result = new StringBuilder();
         String sep = "";
         for(int i = 0; i < 10 ; i++){sep += "+---";}
         sep += "+\n";
-        result += sep;
+        result.append(sep);
         for (int i = 0; i < 10; i++) {
-            result += "|";
+            result.append("|");
             for (int j = 0; j < 10; j++) {
                 if (this.world[i][j].get_struct() != null) {
                     if (this.world[i][j].get_struct() instanceof Mine) {
-                        result += "M " + this.world[i][j].get_struct().get_id() + "|";
+                        result.append("M ").append(this.world[i][j].get_struct().get_id()).append("|");
                     } else {
-                        result += "W " + this.world[i][j].get_struct().get_id() + "|";
+                        result.append("W ").append(this.world[i][j].get_struct().get_id()).append("|");
                     }
                 } else if (this.world[i][j].get_water()) {
-                    result += "X X|";
+                    result.append("X X|");
                 } else {
-                    result += "   |";
+                    result.append("   |");
                 }
             }
-            result += "\n";
-            result += "|";
+            result.append("\n");
+            result.append("|");
             for (int j = 0; j < 10; j++) {
                 if (this.world[i][j].get_robot() != null) {
-                    result += "R " + this.world[i][j].get_robot().get_id() + "|";
+                    result.append("R ").append(this.world[i][j].get_robot().get_id()).append("|");
                 } else if (this.world[i][j].get_water()) {
-                    result += "X X|";
+                    result.append("X X|");
                 } else {
-                    result += "   |";
+                    result.append("   |");
                 }
             }
-            result += "\n"+sep;
+            result.append("\n").append(sep);
         }
 
-        result += "\n\n";
+        result.append("\n\n");
         for (Warehouse ware : this.warehouses) {
-            result += "Warehouse " + ware.get_id() + ": " + ware.get_storage() + "\n";
+            result.append("Warehouse ").append(ware.get_id()).append(": ").append(ware.get_storage()).append("\n");
         }
         for (Mine mine : this.mines) {
-            result += "Mine " + mine.get_id() + ": " + mine.get_storage() + "/" + mine.get_capacity() + "\n";
+            result.append("Mine ").append(mine.get_id()).append(": ").append(mine.get_storage()).append("/").append(mine.get_capacity()).append("\n");
         }
         for (Robot rob : this.robots_gold) {
-            result += "Robot " + rob.get_id() + ": " + rob.get_inventory() + "/" + rob.get_storage() + "\n";
+            result.append("Robot ").append(rob.get_id()).append(": ").append(rob.get_inventory()).append("/").append(rob.get_storage()).append("\n");
         }
         for (Robot rob : this.robots_nickel) {
-            result += "Robot " + rob.get_id() + ": " + rob.get_inventory() + "/" + rob.get_storage() + "\n";
+            result.append("Robot ").append(rob.get_id()).append(": ").append(rob.get_inventory()).append("/").append(rob.get_storage()).append("\n");
         }
-        return result;
+        return result.toString();
     }
 
     public ArrayList<Robot> get_robot() {
