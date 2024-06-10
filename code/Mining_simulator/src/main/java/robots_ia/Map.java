@@ -1,6 +1,7 @@
 package robots_ia;
 
 import code.*;
+import javafx.util.Pair;
 
 import java.util.ArrayList;
 
@@ -24,7 +25,9 @@ public class Map {
         this.warehouses = new ArrayList<Warehouse>();
     }
 
-    public String dijkstra(int[] dest, Robot robot) {}
+    public Pair<String, Integer> dijkstra(int[] dest, Robot robot) {
+
+    }
 
     public String exploration(Robot robot) {}
 
