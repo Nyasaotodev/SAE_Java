@@ -3,6 +3,7 @@ package robots_ia;
 
 import code.Mine;
 import code.Robot;
+import javafx.util.Pair;
 
 public class AI {
     private Network network;
@@ -15,28 +16,30 @@ public class AI {
         this.robot = robot;
     }
 
-    public void jouer() {
-        if(map.getMines().isEmpty()) {
+    public void jouer() throws Exception {
+        if(network.known_destination(this.robot) == null) {
             map.exploration(this.robot);
         }
         else {
-            int temp = 0;
-            for(int i = 0; i < this.network.known_destination(this.robot).size; i++) {
-                if(this.network.known_destination(this.robot).get(i) instanceof Mine && this.network.known_destination(this.robot).get(i).get_type() == this.robot.get_type()) {
-                    temp = this.network.known_destination(this.robot).get(i);
+            Pair <String, Integer> shorter = new Pair<>("", 100);
+            for(Mine mine: map.getMines()) {
+                    Pair <String, Integer> route = network.route(new int[]{mine.get_x(), mine.get_y()}, this.robot);
+                    if(route.getValue() < shorter.getValue()) {
+                        shorter = route;
+                    }
                 }
+            robot.move(shorter.getKey());
+
             }
         }
-    }
+
 
     public Network getNetwork() {
         return network;
     }
-
     public Map getMap() {
-        return map;
+        return this.map;
     }
-
     public Robot getRobot() {
         return robot;
     }

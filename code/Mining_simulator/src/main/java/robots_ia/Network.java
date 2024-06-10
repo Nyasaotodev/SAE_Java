@@ -1,7 +1,9 @@
 package robots_ia;
 
+import code.Mine;
 import code.World;
 import code.Robot;
+import javafx.util.Pair;
 
 import java.util.ArrayList;
 
@@ -20,9 +22,20 @@ public class Network {
         }
     }
 
-    public int[] known_destination(Robot robot) {}
+    public ArrayList<Mine> known_destination(Robot robot) {
+        ArrayList<Mine> mines = new ArrayList<Mine>();
+        if (map.getMines() != null) {
+            for (Mine mine : map.getMines()) {
+                if (mine.get_type() == robot.get_type()) {
+                    mines.add(mine);
+                }
+            }
+            return mines;
+        }
+        return null;
+    }
 
-    public double route(int[] dest, Robot robot) { //renvoyer tuple (distance int, direction String)
+    public Pair<String, Integer> route(int[] dest, Robot robot) { //renvoyer tuple (direction String, distance int)
 
     }
 
