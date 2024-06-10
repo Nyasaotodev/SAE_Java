@@ -12,7 +12,7 @@ public class Network {
 
     public Network(World world) {
         this.world = world;
-        this.map = new Map();
+        //this.map = new Map();
         this.AIs = new ArrayList<AI>();
         for (Robot robot : world.get_robot()) {
             AIs.add(new AI(this, map, robot));
