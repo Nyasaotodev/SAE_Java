@@ -1,7 +1,12 @@
 package robots_ia;
 
 import code.*;
+import javafx.scene.Scene;
+import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 import javafx.util.Pair;
+import vue.Game_GUI;
+import vue.Simu_GUI;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -13,7 +18,7 @@ public class Network {
 
     public Network(World world) throws out_of_bound_exception {
         this.world = world;
-        //this.map = new Map();
+        this.map = new Map(this.world, this);
         this.AIs = new ArrayList<AI>();
         for (Robot robot : world.get_robot()) {
             this.AIs.add(new AI(this, this.map, robot));
@@ -24,7 +29,7 @@ public class Network {
     public boolean known_destination(Robot robot) {
         if (this.map.getMines() != null) {
             for (Mine mine : this.map.getMines()) {
-                if (mine.get_type() == robot.get_type()) {
+                if (mine.get_type() == robot.get_type() && mine.get_storage() > 0) {
                     return true;
                 }
             }
@@ -81,5 +86,36 @@ public class Network {
 
     public World getWorld() {
         return this.world;
+    }
+
+    public void store(Robot robot) {
+        this.AIs.remove(robot);
+    }
+
+    public void run_lap(Scene scene, Simu_GUI simu_gui, Text lap, Text stats) throws InterruptedException {
+        while (!simu_gui.getCompleted()) {
+            try {
+                Thread.sleep(1000*simu_gui.getSpeed());
+                simu_gui.setLap(simu_gui.getLap() + 1);
+                lap.setText("lap: " + simu_gui.getLap());
+                for (AI ai : this.AIs) {
+                    try {
+                        ai.jouer();
+                    } catch (Exception e) {
+                        System.out.println(e);
+                    }
+                }
+                stats.setText(simu_gui.stats(this.map.getWorldmap(), this.world));
+                simu_gui.Buildings(this.map.getWorldmap(), (VBox) scene.getRoot().getChildrenUnmodifiable().getFirst(), this.world, scene);
+            } catch (InterruptedException e) {
+                System.out.println(e);
+            } catch (out_of_bound_exception e) {
+                throw new RuntimeException(e);
+            }
+            if (this.AIs.isEmpty()) {
+                simu_gui.setCompleted(true);
+            }
+        }
+
     }
 }
