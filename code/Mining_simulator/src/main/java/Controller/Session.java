@@ -1,6 +1,5 @@
 package Controller;
 
-import Components.Map;
 import code.Robot;
 import code.World;
 import code.out_of_bound_exception;
