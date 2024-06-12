@@ -1,34 +1,65 @@
 package robots_ia;
 
 
-import code.Mine;
-import code.Robot;
-import code.Section;
+import code.*;
 import javafx.util.Pair;
 
 public class AI {
     private Network network;
-    private Map map;
     private Robot robot;
 
-    public AI(Network network, Map map, Robot robot) {
+    public AI(Network network, Robot robot) {
         this.network = network;
-        this.map = map;
         this.robot = robot;
     }
 
     public void jouer() throws Exception {
         if (this.robot.get_inventory()<this.robot.get_storage()) { //si le robot n'est pas plein il doit miner
-            Section section = network.getWorld().get_section(this.robot.get_pose()[0], this.robot.get_pose()[1]);
-            if (section.get_struct() instanceof Mine && section.get_struct().get_storage() > 0) { // si il est dans une mine il mine
-                this.robot.mine();
-            } else { // sinon il se déplace
-                if (network.known_destination(this.robot)) { // si il connais une mine il s'y rend
-                    this.robot.move(network.route("mine", this.robot));
-                } else { // sinon il explore
-                    this.robot.move(network.route("exploration", this.robot));
+            Section section;
+            try {
+                section = network.getWorld().get_section(this.robot.get_pose()[0], this.robot.get_pose()[1]);
+                if (section.get_struct() instanceof Mine && section.get_struct().get_storage() > 0) { // si il est dans une mine il mine
+                    System.out.println("Robot " + this.robot.get_id() + " mining at "+ this.robot.get_pose()[1] + " " + this.robot.get_pose()[0]);
+                    this.robot.mine();
+                } else { // sinon il se déplace
+                    if (network.known_destination(this.robot)) { // si il connais une mine il s'y rend
+                        System.out.println("Robot " + this.robot.get_id() + " known destination at"+network.route("mine", this.robot));
+                        this.robot.move(network.route("mine", this.robot));
+                    } else { // sinon il explore
+                        System.out.println("Robot " + this.robot.get_id() + " exploration");
+                        String route = network.route("exploration", this.robot);
+                        if (route != null) {
+                            System.out.println("Robot " + this.robot.get_id() + " moving to " + route);
+                            this.robot.move(route);
+                        } else if(this.robot.get_inventory()>0) {
+                            System.out.println("Robot " + this.robot.get_id() + " moving to warehouse");
+                            this.robot.move(network.route("entrepot", this.robot));
+                        } else if(section.get_struct() instanceof Warehouse) {
+                            System.out.println("Robot " + this.robot.get_id() + " storing");
+                            network.store(this.robot);
+                        } else {
+                            System.out.println("Robot " + this.robot.get_id() + " moving to warehouse");
+                            this.robot.move(network.route("entrepot", this.robot));
+                        }
+                    }
                 }
             }
+            catch (out_of_bound_exception e) {
+                System.out.println("big Robot " + this.robot.get_id() + " out of bound at "+ this.robot.get_pose()[1] + " " + this.robot.get_pose()[0]);
+            }
+            catch (Inventory_full_exception e) {
+                System.out.println("Robot " + this.robot.get_id() + " inventory full at "+ this.robot.get_pose()[1] + " " + this.robot.get_pose()[0]);
+            }
+            catch (Not_in_mine_exception e) {
+                System.out.println("Robot " + this.robot.get_id() + " not in mine at "+ this.robot.get_pose()[1] + " " + this.robot.get_pose()[0]);
+            }
+            catch (Wrong_type_exception e) {
+                System.out.println("Robot " + this.robot.get_id() + " wrong type at "+ this.robot.get_pose()[1] + " " + this.robot.get_pose()[0]);
+            }
+            catch (is_water_exception e) {
+                System.out.println("Robot " + this.robot.get_id() + " is in water at "+ this.robot.get_pose()[1] + " " + this.robot.get_pose()[0]);
+            }
+
         } else {// sinon le robot doit se rendre à l'entrepot
             this.robot.move(network.route("entrepot", this.robot));
         } // on refresh la map
@@ -39,9 +70,6 @@ public class AI {
 
     public Network getNetwork() {
         return network;
-    }
-    public Map getMap() {
-        return this.map;
     }
     public Robot getRobot() {
         return robot;
