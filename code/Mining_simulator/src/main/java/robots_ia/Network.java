@@ -48,6 +48,18 @@ public class Network {
         switch (dest) {
             case "exploration": {
                 System.out.println("sending route for exploration");
+                boolean map_completed = true;
+                for (int[] row : this.map.getWorldmap()) {
+                    for (int cell : row) {
+                        if (cell == 0) {
+                            map_completed = false;
+                        }
+                    }
+                }
+
+                if (Objects.equals(this.map.exploration(robot), null) || map_completed) {
+                    return null;
+                }
                 return this.map.exploration(robot);
             }
             case "mine": {
@@ -55,18 +67,27 @@ public class Network {
                 for (Mine mine : this.map.getMines()) {
                     if (mine.get_type() == robot.get_type()) {
                         Pair<String, Integer> minePath = this.map.dijkstra(new int[]{mine.get_x(), mine.get_y()}, robot);
+                        if (minePath == null) {
+                            return null;
+                        }
                         if (minePath.getValue() < nearestMine.getValue()) {
                             nearestMine = minePath;
                         }
                     }
                 }
                 System.out.println("sending best route for mine");
+                if (nearestMine.getKey() == null) {
+                    return null;
+                }
                 return nearestMine.getKey();
             }
             case "entrepot": {
                 for (Warehouse warehouse : this.map.getWarehouses()) {
                     if (warehouse.get_type() == robot.get_type()) {
                         System.out.println("sending route for warehouse");
+                        if (Objects.equals(this.map.dijkstra(new int[]{warehouse.get_x(), warehouse.get_y()}, robot), null)) {
+                            return null;
+                        }
                         return this.map.dijkstra(new int[]{warehouse.get_x(), warehouse.get_y()}, robot).getKey();
                     }
                 }
@@ -93,22 +114,17 @@ public class Network {
         return this.world;
     }
 
-    public void store(Robot robot) {
-        this.AIs.remove(robot);
+    public void store(AI robot) throws out_of_bound_exception {
+        this.world.get_section(robot.getRobot().get_pose()[0], robot.getRobot().get_pose()[1]).remove_robot();
+        this.world.get_robot().remove(robot.getRobot());
     }
 
     public void run_lap() throws InterruptedException {
         for (AI ai : this.AIs) {
             try {
                 System.out.println("----------------------\n\nRobot " + ai.getRobot().get_id() + " turn\n\n----------------------\n\n");
-                for (int i = 0; i < 10; i++) {
-                    for (int j = 0; j < 10; j++) {
-                        System.out.print(this.map.getWorldmap()[i][j] + " ");
-                    }
-                    System.out.println();
-                }
                 ai.jouer();
-                System.out.println("----------------------\n\nRobot " + ai.getRobot().get_id() + " end\n\n----------------------");
+                System.out.println("----------------------\n\nRobot end\n\n----------------------");
             } catch (Exception e) {
                 System.out.println(e + "exeption");
             }

@@ -30,7 +30,7 @@ public class Simu_GUI extends Application {
         this.speed = 1;
         this.pause = true;
         this.completed = false;
-        this.scene = new Scene(new Group(),509, 659);
+        this.scene = new Scene(new Group(),509, 749);
         this.handler = new Handler(network, this, scene);
     }
 
@@ -39,6 +39,7 @@ public class Simu_GUI extends Application {
         stage.setTitle("Mining simulator");
         stage.setScene(scene);
         Buildings(network.getMap().getWorldmap(), network.getWorld(), scene, false);
+        System.out.println(this.network.getWorld());
         stage.show();
     }
     public void Buildings(int[][] worldmap, World w, Scene scene, boolean refresh) throws out_of_bound_exception {
@@ -64,24 +65,14 @@ public class Simu_GUI extends Application {
         stats.setText(stats(network.getMap().getWorldmap(), network.getWorld()));
         Text lap = new Text();
         lap.setText("lap: " + this.lap);
-        Text speed = new Text();
-        speed.setText("speed: " + this.speed);
-        Text pause = new Text();
-        pause.setText("paused");
-        sim_stats.getChildren().addAll(lap, speed, pause);
-
-
+        sim_stats.getChildren().add(lap);
 
         HBox buttons = new HBox();
-        Button slow = new Button("slow");
-        Button fast = new Button("fast");
         Button start = new Button("run lap");
 
-        slow.setOnMouseClicked(handler);
-        fast.setOnMouseClicked(handler);
         start.setOnMouseClicked(handler);
 
-        buttons.getChildren().addAll(slow, start, fast);
+        buttons.getChildren().add(start);
 
         hud.getChildren().addAll(stats, buttons, sim_stats);
 
@@ -97,9 +88,9 @@ public class Simu_GUI extends Application {
                 Rectangle square = new Rectangle(25,25);
                 if (worldmap[i][j] == 0) {
                     cell.setFill(Color.BLACK);
-                } else if (worldmap[i][j] == 1) {
+                } if (worldmap[i][j] == 1) {
                     cell.setFill(Color.GREEN);
-                } else if (worldmap[i][j] == 2) {
+                } if (w.get_section(i, j).get_struct() instanceof Warehouse) {
                     cell.setFill(Color.GREEN);
                     txt.setText("W"+s.get_struct().get_id());
                     if (s.get_struct().get_type().equals(ore.gold))
@@ -110,7 +101,8 @@ public class Simu_GUI extends Application {
                     square.setY(i*51);
                     txt.setX(3.25 + 51*j);
                     txt.setY(17.5 + i*51);
-                } else if (worldmap[i][j] == 3) {
+
+                } if (worldmap[i][j] == 3) {
                     cell.setFill(Color.GREEN);
                     txt.setText("M"+s.get_struct().get_id());
                     if (s.get_struct().get_type().equals(ore.gold))
@@ -121,19 +113,24 @@ public class Simu_GUI extends Application {
                     square.setY(i*51);
                     txt.setX(30.25 + 51*j);
                     txt.setY(17.5 + i*51);
-                } else if (worldmap[i][j] == 4) {
+
+
+                } if (worldmap[i][j] == 4) {
                     cell.setFill(Color.BLUE);
-                } else if (worldmap[i][j] == 5) {
+                } if (w.get_section(i, j).get_robot() != null) {
+                    Text rtxt = new Text();
+                    Rectangle rsquare = new Rectangle(25,25);
                     cell.setFill(Color.GREEN);
-                    txt.setText("R"+s.get_robot().get_id());
+                    rtxt.setText("R"+s.get_robot().get_id());
                     if (s.get_robot().get_type().equals(ore.gold))
-                        square.setFill(Color.YELLOW);
+                        rsquare.setFill(Color.YELLOW);
                     else
-                        square.setFill(Color.RED);
-                    square.setX(25 + 51*j);
-                    square.setY(25 + i*51);
-                    txt.setX(30.5 + 51*j);
-                    txt.setY(42.5 + i*51);
+                        rsquare.setFill(Color.RED);
+                    rsquare.setX(25 + 51*j);
+                    rsquare.setY(25 + i*51);
+                    rtxt.setX(30.5 + 51*j);
+                    rtxt.setY(42.5 + i*51);
+                    ((Group)scene.getRoot()).getChildren().addAll(rsquare, rtxt);
                 }
                 row.getChildren().add(cell);
                 if (txt.getText() != "") {
