@@ -89,6 +89,7 @@ public class Handler implements EventHandler<MouseEvent> {
                         throw new RuntimeException(e);
                     }
                     try {
+                        this.gui.setLap(this.gui.getLap() + 1);
                         this.gui.Buildings(this.network.getMap().getWorldmap(), this.network.getWorld(), this.scene, true);
                     } catch (out_of_bound_exception e) {
                         throw new RuntimeException(e);

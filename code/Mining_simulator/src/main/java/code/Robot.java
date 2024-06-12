@@ -115,6 +115,8 @@ public class Robot {
                 this.world.get_section(this.x,this.y).remove_robot();
                 this.y -= 1;
                 break;
+            case null:
+                break;
             default:
                 throw new invalid_argument_exception();
         }

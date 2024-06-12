@@ -18,7 +18,7 @@ public class AI {
             Section section;
             try {
                 section = network.getWorld().get_section(this.robot.get_pose()[0], this.robot.get_pose()[1]);
-                if (section.get_struct() instanceof Mine && section.get_struct().get_storage() > 0) { // si il est dans une mine il mine
+                if (section.get_struct() instanceof Mine && section.get_struct().get_storage() > 0 && section.get_struct().get_type().equals(this.robot.get_type())) { // si il est dans une mine il mine
                     System.out.println("Robot " + this.robot.get_id() + " mining at "+ this.robot.get_pose()[1] + " " + this.robot.get_pose()[0]);
                     this.robot.mine();
                 } else { // sinon il se déplace
@@ -36,7 +36,7 @@ public class AI {
                             this.robot.move(network.route("entrepot", this.robot));
                         } else if(section.get_struct() instanceof Warehouse) {
                             System.out.println("Robot " + this.robot.get_id() + " storing");
-                            network.store(this.robot);
+                            network.store(this);
                         } else {
                             System.out.println("Robot " + this.robot.get_id() + " moving to warehouse");
                             this.robot.move(network.route("entrepot", this.robot));
