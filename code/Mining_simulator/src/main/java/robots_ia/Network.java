@@ -21,7 +21,7 @@ public class Network {
         this.map = new Map(this.world, this);
         this.AIs = new ArrayList<AI>();
         for (Robot robot : world.get_robot()) {
-            this.AIs.add(new AI(this, this.map, robot));
+            this.AIs.add(new AI(this,  robot));
             this.map.refresh(robot);
         }
     }
@@ -43,8 +43,11 @@ public class Network {
         si entrepot: renvoie la direction vers l'entrepot du robot
         si exploration: renvoie la direction pour explorer la map
          */
+        System.out.println("finding route to " + dest);
+
         switch (dest) {
             case "exploration": {
+                System.out.println("sending route for exploration");
                 return this.map.exploration(robot);
             }
             case "mine": {
@@ -57,11 +60,13 @@ public class Network {
                         }
                     }
                 }
+                System.out.println("sending best route for mine");
                 return nearestMine.getKey();
             }
             case "entrepot": {
                 for (Warehouse warehouse : this.map.getWarehouses()) {
                     if (warehouse.get_type() == robot.get_type()) {
+                        System.out.println("sending route for warehouse");
                         return this.map.dijkstra(new int[]{warehouse.get_x(), warehouse.get_y()}, robot).getKey();
                     }
                 }
@@ -92,30 +97,22 @@ public class Network {
         this.AIs.remove(robot);
     }
 
-    public void run_lap(Scene scene, Simu_GUI simu_gui, Text lap, Text stats) throws InterruptedException {
-        while (!simu_gui.getCompleted()) {
+    public void run_lap() throws InterruptedException {
+        for (AI ai : this.AIs) {
             try {
-                Thread.sleep(1000*simu_gui.getSpeed());
-                simu_gui.setLap(simu_gui.getLap() + 1);
-                lap.setText("lap: " + simu_gui.getLap());
-                for (AI ai : this.AIs) {
-                    try {
-                        ai.jouer();
-                    } catch (Exception e) {
-                        System.out.println(e);
+                System.out.println("----------------------\n\nRobot " + ai.getRobot().get_id() + " turn\n\n----------------------\n\n");
+                for (int i = 0; i < 10; i++) {
+                    for (int j = 0; j < 10; j++) {
+                        System.out.print(this.map.getWorldmap()[i][j] + " ");
                     }
+                    System.out.println();
                 }
-                stats.setText(simu_gui.stats(this.map.getWorldmap(), this.world));
-                simu_gui.Buildings(this.map.getWorldmap(), (VBox) scene.getRoot().getChildrenUnmodifiable().getFirst(), this.world, scene);
-            } catch (InterruptedException e) {
-                System.out.println(e);
-            } catch (out_of_bound_exception e) {
-                throw new RuntimeException(e);
-            }
-            if (this.AIs.isEmpty()) {
-                simu_gui.setCompleted(true);
+                ai.jouer();
+                System.out.println("----------------------\n\nRobot " + ai.getRobot().get_id() + " end\n\n----------------------");
+            } catch (Exception e) {
+                System.out.println(e + "exeption");
             }
         }
-
+        System.out.println("----------------------\n\nEnd of lap\n\n----------------------\n\n");
     }
 }

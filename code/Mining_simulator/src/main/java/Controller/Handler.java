@@ -1,5 +1,6 @@
 package Controller;
 
+import code.out_of_bound_exception;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -81,37 +82,17 @@ public class Handler implements EventHandler<MouseEvent> {
                     }
                     break;
                 }
-                case "start": {
-                    this.gui.setPause(true);
-                    button.setText("play");
-                    button.getScene().getRoot().getChildrenUnmodifiable().forEach(node -> {
-                        if (node instanceof VBox){
-                            VBox vBox = (VBox) node;
-                            vBox.getChildren().forEach(node1 -> {
-                                if (node1 instanceof HBox){
-                                    HBox hBox = (HBox) node1;
-                                    hBox.getChildren().forEach(node2 -> {
-                                        if (node2 instanceof VBox){
-                                            VBox vBox1 = (VBox) node2;
-                                            vBox1.getChildren().forEach(node3 -> {
-                                                if (node3 instanceof Text && ((Text) node3).getText().contains("paused")){
-                                                    Text lap =  (Text) vBox1.getChildren().getFirst();
-                                                    Text stats = ((Text) ((HBox) button.getParent().getParent()).getChildren().getFirst());
-                                                    ((HBox) button.getParent()).getChildren().clear();
-                                                    try {
-                                                        network.run_lap(scene, this.gui, lap, stats);
-                                                    } catch (InterruptedException e) {
-                                                        throw new RuntimeException(e);
-                                                    }
-                                                    System.out.println("start");
-                                                }
-                                            });
-                                        }
-                                    });
-                                }
-                            });
-                        }
-                    });
+                case "run lap": {
+                    try {
+                        this.network.run_lap();
+                    } catch (InterruptedException e) {
+                        throw new RuntimeException(e);
+                    }
+                    try {
+                        this.gui.Buildings(this.network.getMap().getWorldmap(), this.network.getWorld(), this.scene, true);
+                    } catch (out_of_bound_exception e) {
+                        throw new RuntimeException(e);
+                    }
                     break;
                 }
             }
