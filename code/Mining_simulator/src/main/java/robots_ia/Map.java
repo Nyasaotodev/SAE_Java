@@ -42,7 +42,6 @@ public class Map {
                     this.mines.add(mine);
                     this.worldmap[mine.get_x()][mine.get_y()] = 3;
                 } else if (section.get_struct() instanceof Warehouse warehouse1) {
-                    this.warehouses.add(warehouse1);
                     this.worldmap[warehouse1.get_x()][warehouse1.get_y()] = 2;
                 } else if (section.get_water()) {
                     this.worldmap[around[0]][around[1]] = 4;
@@ -58,10 +57,11 @@ public class Map {
             for (int[] around : this.world.around(robot.get_pose()[0], robot.get_pose()[1])) {
                 Section section = this.world.get_section(around[0], around[1]);
                 if (section.get_struct() instanceof Mine mine) {
-                    this.mines.add(mine);
+                    if (!this.mines.contains(mine)) {
+                        this.mines.add(mine);
+                    }
                     this.worldmap[mine.get_x()][mine.get_y()] = 3;
                 } else if (section.get_struct() instanceof Warehouse warehouse1) {
-                    this.warehouses.add(warehouse1);
                     this.worldmap[warehouse1.get_x()][warehouse1.get_y()] = 2;
                 } else if (section.get_water()) {
                     this.worldmap[around[0]][around[1]] = 4;
@@ -75,6 +75,7 @@ public class Map {
     }
 
     public Pair<String, Integer> dijkstra(int[] dest, Robot robot) {
+        System.out.println("searching route with dijkstra");
         int distance = 1;
         int[] pointeur = dest;
         ArrayList<int[]> file = new ArrayList<>();
@@ -93,31 +94,31 @@ public class Map {
             int[] current = file.getFirst();
             file.removeFirst();
 
-            if (wMap[current[0]+1][current[1]] == 0
-                    && this.worldmap[current[0]+1][current[1]] != 4
-                    && this.worldmap[current[0]+1][current[1]] != 5) {
-                if (current[0] < 9) {
+            if (current[0] < 9) {
+                if (wMap[current[0]+1][current[1]] == 0
+                        && this.worldmap[current[0]+1][current[1]] != 4
+                        && this.worldmap[current[0]+1][current[1]] != 5) {
                     wMap[current[0]+1][current[1]] = distance;
                     file.add(new int[]{current[0]+1, current[1]});
                 }}
-            if (wMap[current[0]-1][current[1]] == 0
-                    && this.worldmap[current[0]-1][current[1]] != 4
-                    && this.worldmap[current[0]-1][current[1]] != 5) {
-                if (current[0] > 0) {
+            if (current[0] > 0) {
+                if (wMap[current[0]-1][current[1]] == 0
+                        && this.worldmap[current[0]-1][current[1]] != 4
+                        && this.worldmap[current[0]-1][current[1]] != 5) {
                     wMap[current[0]-1][current[1]] = distance;
                     file.add(new int[]{current[0]-1, current[1]});
                 }}
-            if (wMap[current[0]][current[1]+1] == 0
-                    && this.worldmap[current[0]][current[1]+1] != 4
-                    && this.worldmap[current[0]][current[1]+1] != 5) {
-                if (current[1] < 9) {
+            if (current[1] < 9) {
+                if (wMap[current[0]][current[1]+1] == 0
+                        && this.worldmap[current[0]][current[1]+1] != 4
+                        && this.worldmap[current[0]][current[1]+1] != 5) {
                     wMap[current[0]][current[1]+1] = distance;
                     file.add(new int[]{current[0], current[1]+1});
                 }}
-            if (wMap[current[0]][current[1]-1] == 0
-                    && this.worldmap[current[0]][current[1]-1] != 4
-                    && this.worldmap[current[0]][current[1]-1] != 5) {
-                if (current[1] > 0) {
+            if (current[1] > 0) {
+                if (wMap[current[0]][current[1]-1] == 0
+                        && this.worldmap[current[0]][current[1]-1] != 4
+                        && this.worldmap[current[0]][current[1]-1] != 5) {
                     wMap[current[0]][current[1]-1] = distance;
                     file.add(new int[]{current[0], current[1]-1});
                 }}
@@ -164,7 +165,7 @@ public class Map {
                 }
             }
         }
-
+        System.out.println("route found"+ new Pair<>(minimum, wMap[robot.get_pose()[0]][robot.get_pose()[1]]));
         return new Pair<>(minimum, wMap[robot.get_pose()[0]][robot.get_pose()[1]]);
 
 
@@ -190,44 +191,44 @@ public class Map {
         int cpt = 1;
         int cap = 1000;
         while (!file.isEmpty() && distance < cap) {
+            System.out.println("searching route for exploration");
             int[] current = file.getFirst();
             file.removeFirst();
 
-            if (wMap[current[0]+1][current[1]] == 0
-                    && this.worldmap[current[0]+1][current[1]] != 4
-                    && this.worldmap[current[0]+1][current[1]] != 5) {
-                if (current[0] < 9 && this.worldmap[current[0]+1][current[1]] != 0) {
+            if (current[0] < 9 && this.worldmap[current[0]+1][current[1]] != 0) {
+                if (wMap[current[0]+1][current[1]] == 0
+                        && this.worldmap[current[0]+1][current[1]] != 4
+                        && this.worldmap[current[0]+1][current[1]] != 5) {
                     wMap[current[0]+1][current[1]] = distance;
                     file.add(new int[]{current[0]+1, current[1]});
                 } else {
                     unknown.add(new int[]{current[0]+1, current[1]});
                     cap = distance;
                     }}
-            if (wMap[current[0]-1][current[1]] == 0
-                    && this.worldmap[current[0]-1][current[1]] != 4
-                    && this.worldmap[current[0]-1][current[1]] != 5) {
-                if (current[0] > 0 && this.worldmap[current[0]-1][current[1]] != 0) {
+            if (current[0] > 0 && this.worldmap[current[0]-1][current[1]] != 0) {
+                if (wMap[current[0]-1][current[1]] == 0
+                        && this.worldmap[current[0]-1][current[1]] != 4
+                        && this.worldmap[current[0]-1][current[1]] != 5) {
                     wMap[current[0]-1][current[1]] = distance;
                     file.add(new int[]{current[0]-1, current[1]});
                 } else {
                     unknown.add(new int[]{current[0]-1, current[1]});
                     cap = distance;
                 }}
-            if (wMap[current[0]][current[1]+1] == 0
-                    && this.worldmap[current[0]][current[1]+1] != 4
-                    && this.worldmap[current[0]][current[1]+1] != 5) {
-                if (current[1] < 9 && this.worldmap[current[0]][current[1]+1] != 0) {
+            if (current[1] < 9 && this.worldmap[current[0]][current[1]+1] != 0) {
+                if (wMap[current[0]][current[1]+1] == 0
+                        && this.worldmap[current[0]][current[1]+1] != 4
+                        && this.worldmap[current[0]][current[1]+1] != 5) {
                     wMap[current[0]][current[1]+1] = distance;
                     file.add(new int[]{current[0], current[1]+1});
                 } else {
                     unknown.add(new int[]{current[0], current[1]+1});
                     cap = distance;
                 }}
-            if (wMap[current[0]][current[1]-1] == 0
-                    && this.worldmap[current[0]][current[1]-1] != 4
-                    && this.worldmap[current[0]][current[1]-1] != 5) {
-                if (current[1] > 0
-                        && this.worldmap[current[0]][current[1]-1] != 0) {
+            if (current[1] > 0 && this.worldmap[current[0]][current[1]-1] != 0) {
+                if (wMap[current[0]][current[1]-1] == 0
+                        && this.worldmap[current[0]][current[1]-1] != 4
+                        && this.worldmap[current[0]][current[1]-1] != 5) {
                     wMap[current[0]][current[1]-1] = distance;
                     file.add(new int[]{current[0], current[1]-1});
                 } else {
@@ -242,24 +243,32 @@ public class Map {
             }
         }
 
+        System.out.println("out of while");
+
         if (unknown.isEmpty()) {
+            System.out.println("no exploration route found");
             return null;
         } else {
-            int min = 100;
-            int[] min_pos = new int[2];
-            for (int[] pos : unknown) {
-                if (wMap[pos[0]][pos[1]] < min) {
-                    min = wMap[pos[0]][pos[1]];
-                    min_pos = pos;
+            System.out.println("Calculating best exploration route");
+            try {
+                int min = 100;
+                int[] min_pos = new int[2];
+                for (int[] pos : unknown) {
+                    if (wMap[pos[0]][pos[1]] < min) {
+                        min = wMap[pos[0]][pos[1]];
+                        min_pos = pos;
+                    }
                 }
-            }
-            for (int[] pos : unknown) {
-                if (wMap[pos[0]][pos[1]] > wMap[min_pos[0]][min_pos[1]]) {
-                    unknown.remove(pos);
+                for (int[] pos : unknown) {
+                    if (wMap[pos[0]][pos[1]] > wMap[min_pos[0]][min_pos[1]]) {
+                        unknown.remove(pos);
+                    }
                 }
+            } catch (Exception e) {
+                System.out.println("error occured while calculating best exploration route");
             }
-
             if (unknown.size() == 1) {
+                System.out.println("exploration route found "+ dijkstra(unknown.get(0), robot).getKey());
                 return dijkstra(unknown.get(0), robot).getKey();
             }
 
@@ -269,36 +278,39 @@ public class Map {
             for (int i = 0; i < unknown.size(); i++) {
                 ArrayList<int[]> file_unknown = new ArrayList<>();
                 file_unknown.add(unknown.get(i));
+                ArrayList<int[]> unknown_already_seen = new ArrayList<>();
 
 
                 while (!file_unknown.isEmpty()) {
-                    int[] current = unknown.get(i);
+                    int[] current = file_unknown.get(0);
+                    unknown_already_seen.add(current);
                     file_unknown.remove(current);
 
                     if (current[0] + 1 < 9) {
-                        if (worldmap[current[0] + 1][current[1]] == 0) {
+                        if (worldmap[current[0] + 1][current[1]] == 0 && !unknown_already_seen.contains(new int[]{current[0] + 1, current[1]})) {
                             nbr_unknown_adjascents[i]++;
                             file_unknown.add(new int[]{current[0] + 1, current[1]});
                         }
                     }
                     if (current[0] - 1 > 0) {
-                        if (worldmap[current[0] - 1][current[1]] == 0) {
+                        if (worldmap[current[0] - 1][current[1]] == 0 && !unknown_already_seen.contains(new int[]{current[0] - 1, current[1]})) {
                             nbr_unknown_adjascents[i]++;
                             file_unknown.add(new int[]{current[0] - 1, current[1]});
                         }
                     }
                     if (current[1] + 1 < 9) {
-                        if (worldmap[current[0]][current[1] + 1] == 0) {
+                        if (worldmap[current[0]][current[1] + 1] == 0 && !unknown_already_seen.contains(new int[]{current[0], current[1] + 1})) {
                             nbr_unknown_adjascents[i]++;
                             file_unknown.add(new int[]{current[0], current[1] + 1});
                         }
                     }
                     if (current[1] - 1 > 0) {
-                        if (worldmap[current[0]][current[1] - 1] == 0) {
+                        if (worldmap[current[0]][current[1] - 1] == 0 && !unknown_already_seen.contains(new int[]{current[0], current[1] - 1})) {
                             nbr_unknown_adjascents[i]++;
                             file_unknown.add(new int[]{current[0], current[1] - 1});
                         }
                     }
+                    System.out.println("file_unknow"+file_unknown);
 
                 }
             }
@@ -311,19 +323,26 @@ public class Map {
                     max_pos = i;
                 }
             }
+            System.out.println("exploration route found"+ dijkstra(unknown.get(max_pos), robot).getKey());
             return dijkstra(unknown.get(max_pos), robot).getKey();
         }
     }
 
-    public void refresh(Robot robot) throws out_of_bound_exception {
+    public void refresh(Robot robot) {
+        this.worldmap[robot.get_pose()[0]][robot.get_pose()[1]] = 5;
         for (int[] around : this.world.around(robot.get_pose()[0], robot.get_pose()[1])) {
-            Section section = this.world.get_section(around[0], around[1]);
+            Section section;
+            try {
+                section = this.world.get_section(around[0], around[1]);
+            } catch (out_of_bound_exception e) {
+                System.out.println("coucou");
+                continue;
+            }
             if (section.get_struct() instanceof Mine mine) {
-                this.mines.add(mine);
+                if(!this.mines.contains(mine)) {
+                    this.mines.add(mine);
+                }
                 this.worldmap[mine.get_x()][mine.get_y()] = 3;
-            } else if (section.get_struct() instanceof Warehouse warehouse1) {
-                this.warehouses.add(warehouse1);
-                this.worldmap[warehouse1.get_x()][warehouse1.get_y()] = 2;
             } else if (section.get_water()) {
                 this.worldmap[around[0]][around[1]] = 4;
             } else if (section.get_robot() != null) {
@@ -353,4 +372,5 @@ public class Map {
     public ArrayList<Warehouse> getWarehouses() {
         return warehouses;
     }
+
 }

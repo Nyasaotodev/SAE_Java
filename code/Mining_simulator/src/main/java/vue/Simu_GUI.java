@@ -21,6 +21,8 @@ public class Simu_GUI extends Application {
     private Integer speed;
     private Boolean pause;
     private boolean completed;
+    private Handler handler;
+    private Scene scene;
 
     public Simu_GUI() throws Exception {
         this.network = new Network(new World());
@@ -28,16 +30,35 @@ public class Simu_GUI extends Application {
         this.speed = 1;
         this.pause = true;
         this.completed = false;
+        this.scene = new Scene(new Group(),509, 659);
+        this.handler = new Handler(network, this, scene);
     }
 
     @Override
     public void start(Stage stage) throws out_of_bound_exception, InterruptedException {
         stage.setTitle("Mining simulator");
-        VBox root = new VBox();
-        Scene scene = new Scene(new Group(),509, 659);
-        Handler handler = new Handler(network, this, scene);
         stage.setScene(scene);
-        ((Group) scene.getRoot()).getChildren().add(root);
+        Buildings(network.getMap().getWorldmap(), network.getWorld(), scene, false);
+        stage.show();
+    }
+    public void Buildings(int[][] worldmap, World w, Scene scene, boolean refresh) throws out_of_bound_exception {
+        /* 0 = unknown
+         * 1 = land
+         * 2 = warehouse
+         * 3 = mine
+         * 4 = water
+         * 5 = robot
+         */
+        if (refresh) {
+            ((Group)scene.getRoot()).getChildren().clear();
+        }
+
+        VBox root = new VBox();
+        VBox map = new VBox();
+        HBox hud = new HBox();
+        map.setSpacing(1);
+        hud.setSpacing(30);
+
         Text stats = new Text();
         VBox sim_stats = new VBox();
         stats.setText(stats(network.getMap().getWorldmap(), network.getWorld()));
@@ -49,37 +70,23 @@ public class Simu_GUI extends Application {
         pause.setText("paused");
         sim_stats.getChildren().addAll(lap, speed, pause);
 
-        VBox map = new VBox();
-        map.setSpacing(1);
-
-        HBox controler = new HBox();
-            controler.setSpacing(30);
-            HBox buttons = new HBox();
-                 Button slow = new Button("slow");
-                 Button fast = new Button("fast");
-                 Button start = new Button("start");
-
-                 slow.setOnMouseClicked(handler);
-                 fast.setOnMouseClicked(handler);
-                 start.setOnMouseClicked(handler);
-
-                 buttons.getChildren().addAll(slow, start, fast);
 
 
-        Buildings(network.getMap().getWorldmap(), map, network.getWorld(), scene);
-        controler.getChildren().addAll(stats, buttons, sim_stats);
-        root.getChildren().addAll(map, controler);
-        stage.show();
-    }
-    public void Buildings(int[][] worldmap, VBox map, World w, Scene scene) throws out_of_bound_exception {
-        /* 0 = unknown
-         * 1 = land
-         * 2 = warehouse
-         * 3 = mine
-         * 4 = water
-         * 5 = robot
-         */
-        map.getChildren().clear();
+        HBox buttons = new HBox();
+        Button slow = new Button("slow");
+        Button fast = new Button("fast");
+        Button start = new Button("run lap");
+
+        slow.setOnMouseClicked(handler);
+        fast.setOnMouseClicked(handler);
+        start.setOnMouseClicked(handler);
+
+        buttons.getChildren().addAll(slow, start, fast);
+
+        hud.getChildren().addAll(stats, buttons, sim_stats);
+
+        ((Group) scene.getRoot()).getChildren().add(root);
+
         for (int i = 0; i < worldmap.length; i++) {
             HBox row = new HBox();
             row.setSpacing(1);
@@ -135,36 +142,27 @@ public class Simu_GUI extends Application {
             }
             map.getChildren().add(row);
         }
+
+        root.getChildren().addAll(map, hud);
     }
 
     public String stats(int[][] worldmap, World w) throws out_of_bound_exception {
         String result ="";
-        for (int i = 0; i < worldmap.length; i++) {
-            for (int j = 0; j < worldmap[i].length; j++) {
-                Section s = w.get_section(i, j);
-                Structure struct = s.get_struct();
-                if (struct instanceof Mine && worldmap[i][j] == 3) {
-                    result += "Mine " + struct.get_id() + ": " + struct.get_storage() + "\n";
-                }
+        for (Mine mine : w.get_mines()) {
+            if (worldmap[mine.get_x()][mine.get_y()] == 3) {
+                result += "Mine " + mine.get_id() + ": " + mine.get_storage() + "\n";
             }
         }
-        for (int i = 0; i < worldmap.length; i++) {
-            for (int j = 0; j < worldmap[i].length; j++) {
-                Section s = w.get_section(i, j);
-                Structure struct = s.get_struct();
-                if (struct instanceof Warehouse && worldmap[i][j] == 2) {
-                    result += "Warehouse " + struct.get_id() + ": " + struct.get_storage() + "\n";
-                }
+        for (Warehouse warehouse : w.get_warehouses()) {
+            if (worldmap[warehouse.get_x()][warehouse.get_y()] == 2) {
+                result += "Warehouse " + warehouse.get_id() + ": " + warehouse.get_storage() + "\n";
             }
+
         }
-        for (int i = 0; i < worldmap.length; i++) {
-            for (int j = 0; j < worldmap[i].length; j++) {
-                Section s = w.get_section(i, j);
-                if (s.get_robot() != null && worldmap[i][j] == 5) {
-                    result += "Robot " + s.get_robot().get_id() + ": " + s.get_robot().get_inventory() + "/" + s.get_robot().get_storage() + "\n";
-                }
-            }
+        for (Robot robot : w.get_robot()){
+                    result += "Robot " + robot.get_id() + ": " + robot.get_inventory() + "/" + robot.get_storage() + "\n";
         }
+
         return result;
     }
     public Integer getLap() {
