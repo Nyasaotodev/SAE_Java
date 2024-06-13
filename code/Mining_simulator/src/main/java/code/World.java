@@ -64,7 +64,7 @@ public class World {
             if (this.world[x][y].get_water() || this.world[x][y].get_struct() != null || this.world[x][y].get_robot()!=null) {
                 continue;
             }
-            this.world[x][y].set_struct(new Mine(0, x, y, ore.gold));
+            this.world[x][y].set_struct(new Mine(id, x, y, ore.gold));
             this.mines.add((Mine)this.world[x][y].get_struct());
             gold_mine--;
             id++;
